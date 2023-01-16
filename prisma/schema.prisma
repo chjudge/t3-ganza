@@ -64,3 +64,10 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Ticket {
+    id        String   @id @default(cuid())
+    name      String?
+    checkedIn Boolean  @default(false)
+    coatcheck Boolean  @default(false)
+}
