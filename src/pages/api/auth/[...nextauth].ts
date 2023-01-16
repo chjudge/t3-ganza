@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error("No credentials provided");
         }
         const user = await prisma.user.findUnique({
-          where: { email: credentials.username },
+          where: { username: credentials.username },
         });
         if (!user) {
           throw new Error("No user found");
