@@ -1,10 +1,10 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import CredentialsProvider from "next-auth/providers/credentials";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-import { env } from "../../../env/server.mjs";
-import { prisma } from "../../../server/db";
+import { env } from "@/env/server.mjs";
+import { prisma } from "@/server/db";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
@@ -19,9 +19,28 @@ export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (credentials === undefined) {
+          throw new Error("No credentials provided");
+        }
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.username },
+        });
+        if (!user) {
+          throw new Error("No user found");
+        }
+        const isValid = false
+        if (!isValid) {
+          throw new Error("Invalid password");
+        }
+        return user;
+      }
     }),
     /**
      * ...add more providers here
