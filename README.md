@@ -1,28 +1,33 @@
-# Create T3 App
+# Extravaganza Management
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+We are going to change the world.
 
-## What's next? How do I make an app with this?
+## Workflow/Ideas
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+We have two major options here, either use id scanning at the door/in the TLC queue or enter ticket numbers to check people in.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+no idea what scanner workflow would look like but numbers is something like:
+* Enter full name with ticket numbers when we give them away at the booth
+* at checkin table/TLC queue there is a guy with the app open who enters the ticket number and then boom you are checked in
+* attendees keep tickets, can do the coatcheck with the same ticket with the number, and we get more stamps?? yeah need stamps
+* use ticket to get coat back, but can use name lookup because we have the name from ticket distro
+* have fun
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
 
-## Learn More
+## Development
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+```bash
+npm run dev
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+# or start the server and open the app in a new browser tab
+npm run dev:open
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Building
 
-## How do I deploy this?
+```bash
+npm run build
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+You can preview the production build with `npm run preview`.
+

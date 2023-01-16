@@ -6,6 +6,17 @@ import {api} from "@/utils/api";
 
 export default function Checkin() {
   const [ticketNumber, setTicketNumber] = useState(-1);
+
+  
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    console.log("submitting ", ticketNumber);
+    console.log("calling api")
+    const result = api.ticket.checkTicket.useQuery({ number: ticketNumber});
+
+    console.log(`result: ${result.data ? result.data.name : "no data"}`)
+    e.preventDefault();
+  }
+
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl">checkin</p>
@@ -30,8 +41,4 @@ export default function Checkin() {
     </div>
   );
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    console.log("submitting ", ticketNumber);
-    e.preventDefault();
-  }
 }
