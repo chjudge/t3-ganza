@@ -1,7 +1,5 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-// Prisma adapter for NextAuth, optional and can be removed
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
@@ -17,7 +15,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
   // Configure one or more authentication providers
-  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -27,26 +24,22 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         if (credentials === undefined) {
-          throw new Error("No credentials provided");
+          return null;
         }
         const result = api.auth.checkUser.useQuery(credentials);
-
         if (result.data){
-        if (result.data.result === false){
-          return null
-        }
-        const user = await prisma.user.findUnique({
-          where: {
-            username: result.data.username,
-          },
-        });
-        if (user) {
+          if (result.data.result === false){
+            return null
+          }
+          const user = await prisma.user.findUnique({
+            where: {
+              username: result.data.username,
+            },
+          });
+          
           return user;
         }
-        return null;
-      }
-
-       
+        return null
       }
     }),
     /**
