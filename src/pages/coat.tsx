@@ -1,4 +1,10 @@
+import { Navbar } from "@/components/navbar";
+
 export default function CoatCheck() {
-  return <div>Coat Check</div>;
+  return (
+    <>
+      <Navbar />
+      <div>Coat Check</div>
+    </>
+  );
 }
-    

@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import {api} from "@/utils/api";
+import { Navbar } from "@/components/navbar";
 
 export default function Checkin() {
   const [ticketNumber, setTicketNumber] = useState(-1);
@@ -18,6 +19,8 @@ export default function Checkin() {
   }
 
   return (
+    <>
+    <Navbar />
     <div className="flex h-screen w-screen flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl">checkin</p>
 
@@ -33,12 +36,13 @@ export default function Checkin() {
         />
         <button
           type="submit"
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold  no-underline transition hover:bg-white/20"
+          className="btn"
         >
           Check In
         </button>
       </form>
     </div>
+    </>
   );
 
 }

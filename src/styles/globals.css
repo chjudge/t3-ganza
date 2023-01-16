@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components{
+    .btn {
+        @apply rounded-full bg-white/10 px-10 py-3 font-semibold  no-underline transition hover:bg-white/20
+    }
+    .input{
+        @apply block w-full appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2.5 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500
+    }
+}
+
 body {
     @apply text-white bg-gray-800;
 }
