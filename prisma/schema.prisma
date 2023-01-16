@@ -67,6 +67,7 @@ model VerificationToken {
 
 model Ticket {
     id        String   @id @default(cuid())
+    number    Int      @unique
     name      String?
     checkedIn Boolean  @default(false)
     coatcheck Boolean  @default(false)

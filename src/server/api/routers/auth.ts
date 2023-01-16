@@ -8,10 +8,11 @@ export const authRouter = createTRPCRouter({
     .query(({ input }) => {
       //make db call to check if name is associated with ticket
       //return name and mark as checked in, otherwise return empty string and prompt for name
-      const result = false
+
+      const result = false;
       return {
         username: input.username,
-        result: result
+        result: result,
       };
     }),
 });
