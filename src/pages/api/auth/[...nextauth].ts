@@ -27,20 +27,20 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         const result = api.auth.checkUser.useQuery(credentials);
-        if (result.data){
-          if (result.data.result === false){
-            return null
+        if (result.data) {
+          if (result.data.result === false) {
+            return null;
           }
           const user = await prisma.user.findUnique({
             where: {
               username: result.data.username,
             },
           });
-          
+
           return user;
         }
-        return null
-      }
+        return null;
+      },
     }),
     /**
      * ...add more providers here
