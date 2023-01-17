@@ -21,7 +21,7 @@ export default function Ticket() {
       <>
       <Navbar />
         <div className="flex h-screen w-screen flex-col items-center justify-center gap-4">
-          <p className="text-center text-2xl">checkin</p>
+          <p className="text-center text-2xl">Ticket Booth</p>
     
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input

@@ -13,6 +13,13 @@ no idea what scanner workflow would look like but numbers is something like:
 * use ticket to get coat back, but can use name lookup because we have the name from ticket distro
 * have fun
 
+## TODO
+
+* coat check
+* ticket distro
+    * fast pass
+    * booth reservation
+    * regular ticket
 
 ## Development
 
