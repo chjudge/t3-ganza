@@ -12,6 +12,7 @@ datasource db {
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Example {
@@ -65,10 +66,18 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
+model Person {
+    id              String   @id @default(cuid())
+    name            String  @unique
+    coat_check      Boolean
+    checked_coat    Boolean @default(false)
+    coat_check_number Int   @default(0)
+}
+
 model Ticket {
     id        String   @id @default(cuid())
-    number    Int      @unique
-    name      String?
+    number    Int      
+    name      String
     checkedIn Boolean  @default(false)
     coatcheck Boolean  @default(false)
 }

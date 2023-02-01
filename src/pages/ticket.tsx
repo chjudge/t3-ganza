@@ -3,19 +3,20 @@ import { api } from "@/utils/api";
 import { useState } from "react";
 
 export default function Ticket() {
-  const [ticketNumber, setTicketNumber] = useState(-1);
+  const [ticketNumber, setTicketNumber] = useState(0);
   const [name, setName] = useState("");
+  const ticketMutation = api.ticket.giveTicket.useMutation();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     console.log("submitting ", ticketNumber);
     console.log("calling api");
-    const result = api.ticket.giveTicket.useQuery({
-      number: ticketNumber,
-      name: name,
-    });
-    console.log("result", result.data?.ok);
-  }
+    ticketMutation.mutate({ number: ticketNumber, name: name });
+
+    // reset the form
+    setTicketNumber(0);
+    setName("");
+  } // dont make this a form forms are bad, use a button that calls a function
 
   return (
     <>
@@ -44,6 +45,18 @@ export default function Ticket() {
             Give Ticket
           </button>
         </form>
+        {ticketMutation.isError && (
+          <p className="text-center text-2xl">Error</p>
+        )}
+        {ticketMutation.isLoading && (
+          <p className="text-center text-2xl">Loading</p>
+        )}
+
+        {ticketMutation.isSuccess && (
+          <p className="text-center text-2xl">
+            Ticket {ticketMutation.variables?.number} Created
+          </p>
+        )}
       </div>
     </>
   );

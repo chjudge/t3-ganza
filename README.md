@@ -29,25 +29,20 @@ poll for user interest in using id cards - might be too establishment/corpo
 
 ## GOALS
 
-* checkin - used at checkin desk and by goons on phones in TLC
-    * field to enter ticket number
-        * when entering number check if exists, check if already checked in, check is has name
-    * if has no name, display field for name
-    * name is saved with user
+* checkin - used at checkin desk in TLC
+    * fast pass field
+    * field to enter name
+    * field to say whether they need a checked coat
+    * if coat_check then generate number
 * coat - used at coat check desk
-    * field to enter ticket number to check coat
-        * generates coat check number, guy takes coat to hook
-    * field to enter ticket number or name to checout coat
-        * displays coat check number, guy goes to get coat
-* ticket - used at ticket table in SAC 
-    * field for ticket number and name
-        * name field is optional so we can give multiple
-    * bulk ticket option for giving to people for CLP groups
-    * generates ticket in db
-* counter - used by traffic moniter goons and maybe int TLC to know when to send people over
+    * field to enter coatcheck number to indicate coat is checked
+    * field to enter coatcheck number to indicate coat is taken back
+    * field to enter name to search for coat check number
+* counter - used by traffic moniter goons and maybe in TLC to know when to send people over
     * buttons to increment and decrement
     * sync number of people
     * display number of people checked in
+* admin - dashboard ish to display live data from the db
 
 ## Development
 
