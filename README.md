@@ -44,6 +44,19 @@ poll for user interest in using id cards - might be too establishment/corpo
     * display number of people checked in
 * admin - dashboard ish to display live data from the db
 
+## Next steps
+* Validate name DONE
+    * Validation messages DONE
+* Counter page DONE, make client side responsive ish
+* Coat check page
+    * Search by number
+    * checkout button
+* dashboard to view data
+* Auth
+    * every page requires you to be logged in
+* Fast pass page?
+* format
+
 ## Development
 
 ```bash

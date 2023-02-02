@@ -74,10 +74,7 @@ model Person {
     coat_check_number Int   @default(0)
 }
 
-model Ticket {
-    id        String   @id @default(cuid())
-    number    Int      
-    name      String
-    checkedIn Boolean  @default(false)
-    coatcheck Boolean  @default(false)
+model Counter {
+    id              String   @id @default(cuid())
+    count           Int      @default(0)
 }

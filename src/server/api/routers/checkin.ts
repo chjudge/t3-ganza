@@ -2,37 +2,28 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 import { prisma } from "@/server/db";
 
 export const checkinRouter = createTRPCRouter({
   checkin: publicProcedure
     .input(z.object({ name: z.string(), coat_check: z.boolean() }))
-    .mutation(({ input }) => {
-      console.log(input);
-      // make db call to find highest coat check number
-      // if coat_check is true, increment number and assign to person
-
-      if (!input.coat_check){
-        prisma.person.create({// validate name not null and stuff
-          data: {
-            ...input,
-          },
-        }).then((person) => {
+    .mutation(async ({ input }) => {
+      if (!input.coat_check) {
+        try {
+          const person = await prisma.person.create({ data: { ...input } });
           console.log(person);
           return {
             success: true,
           };
-        }).catch((e) => {
-          console.log(e);
+        } catch (error) {
+          console.log(error);
           return {
             success: false,
           };
-        });
-      }
-
-      prisma.person
-        .findMany({
+        }
+      } else {
+        const people = await prisma.person.findMany({
           where: {
             coat_check_number: {
               gt: 0,
@@ -41,80 +32,93 @@ export const checkinRouter = createTRPCRouter({
           orderBy: {
             coat_check_number: "desc",
           },
-        })
-        .then((people) => {
-          const numbers = people.map((person) => person.coat_check_number);
-          console.log(numbers);
+        });
 
-          let num = 1;
-          while (numbers.includes(num)) {
-            num++;
-          }
+        const numbers = people.map((person) => person.coat_check_number);
 
-          console.log(num);
+        let num = 1;
+        while (numbers.includes(num)) {
+          num++;
+        }
 
-          prisma.person.create({// validate name not null and stuff
+        console.log(num);
+
+        try {
+          const person = await prisma.person.create({
+            // validate name not null and stuff
             data: {
               ...input,
               coat_check_number: input.coat_check ? num : 0,
             },
-          }).then((person) => {
-            console.log(person);
-            return {
-              success: true,
-            };
-          }).catch((e) => {
-            console.log(e);
-            return {
-              success: false,
-            };
           });
-          
-        })
-        .catch((e) => {
-          console.log(e);
+          return {
+            success: true,
+            number: person.coat_check_number,
+          };
+        } catch (error) {
+          console.log(error);
           return {
             success: false,
           };
-        });
-
-      
+        }
+      }
     }),
 
-  coatCheckNumber: publicProcedure
-    .input(z.object({ name: z.string() }))
-    .query(({ input }) => {
-      prisma.person
-        .findUniqueOrThrow({
-          where: {
-            name: input.name,
+    counter: publicProcedure
+    .input(z.object({ increment: z.boolean() }))
+    .mutation(async ({ input }) => {
+      try {
+        await prisma.counter.update({
+        where: {
+          id: 'counter',
+        },
+        data: {
+          count: {
+            increment: input.increment ? 1 : -1,
           },
-        })
-        .then((person) => {
-          console.log(`got the number:  ${person.coat_check_number}`);
-          return {
-            number: person.coat_check_number,
-          };
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }),
+        },
+      });
 
+      const count = await prisma.counter.findUnique({
+        where: {
+          id: 'counter',
+        },
+        select: {
+          count: true,
+        },
+      });
 
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
       return {
-        greeting: `Hello ${input.text}`,
+        success: true,
+        count: count
       };
+      } catch (error) {
+        return {
+          success: false,
+        }
+      }
     }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
-  }),
+    getCounter: publicProcedure
+    .query(async () => {
+      try {
+        const count = await prisma.counter.findUnique({
+          where: {
+            id: 'counter',
+          },
+          select: {
+            count: true,
+          },
+        });
 
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
+        return {
+          success: true,
+          count: count
+        };
+      } catch (error) {
+        return {
+          success: false,
+        }
+      }
+    }),
 });
