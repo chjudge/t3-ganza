@@ -17,7 +17,6 @@ Maybe increment ticket number at ticket distro page but also maybe too much work
 keep track to ensure that we have the tickets in order
 Or maybe just have ticket guys write number on ticket and generate on the site
 
-poll for user interest in using id cards - might be too establishment/corpo
 
 ## TODO
 
