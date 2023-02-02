@@ -1,6 +1,5 @@
 import { createTRPCRouter } from "./trpc";
 import { exampleRouter } from "./routers/example";
-import { ticketRouter } from "./routers/ticket";
 import { authRouter } from "./routers/auth";
 import { checkinRouter } from "./routers/checkin";
 /**
@@ -10,7 +9,6 @@ import { checkinRouter } from "./routers/checkin";
  */
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
-  ticket: ticketRouter,
   checkin: checkinRouter,
   auth: authRouter,
 });
