@@ -54,8 +54,8 @@ poll for user interest in using id cards - might be too establishment/corpo
 * dashboard to view data
 * Auth
     * every page requires you to be logged in
-* Fast pass page?
-* format
+* format nice
+* prizes page - randomly choose someone
 
 ## Development
 

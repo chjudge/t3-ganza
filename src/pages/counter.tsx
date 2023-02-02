@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navbar";
 import { api } from "@/utils/api";
+import { useEffect } from "react";
 
 export default function Counter() {
   const mutation = api.checkin.counter.useMutation({
@@ -8,6 +9,16 @@ export default function Counter() {
     },
   });
   const query = api.checkin.getCounter.useQuery();
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     query.refetch().catch((err) => {
+  //       console.log(err);
+  //     });
+  //   }, 2000);
+
+  //   return () => clearInterval(timer);
+  // }, [query]);
 
   function onSubmit(increment: boolean) {
     mutation
@@ -27,7 +38,7 @@ export default function Counter() {
       <Navbar />
       <div>
         {query.isSuccess && query.data.count && (
-          <p>{`Count: ${query.data.count.count}`}</p>
+          <p>{`Count: ${query.data.count}`}</p>
         )}
         <button
           onClick={() => onSubmit(true)}
