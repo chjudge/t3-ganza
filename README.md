@@ -53,8 +53,8 @@ Or maybe just have ticket guys write number on ticket and generate on the site
 * dashboard to view data
 * Auth
     * every page requires you to be logged in
-* Fast pass page?
-* format
+* format nice
+* prizes page - randomly choose someone
 
 ## Development
 

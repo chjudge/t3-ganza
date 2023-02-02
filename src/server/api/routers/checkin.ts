@@ -64,61 +64,84 @@ export const checkinRouter = createTRPCRouter({
       }
     }),
 
-    counter: publicProcedure
+  counter: publicProcedure
     .input(z.object({ increment: z.boolean() }))
     .mutation(async ({ input }) => {
       try {
         await prisma.counter.update({
+          where: {
+            id: input.increment ? "enter" : "exit",
+          },
+          data: {
+            count: {
+              increment: 1,
+            },
+          },
+        });
+
+        const counts = await prisma.counter.findMany({
+          where: {
+            id: {
+              in: ["enter", "exit"],
+            },
+          },
+          select: {
+            count: true,
+          },
+          orderBy: {
+            count: "desc",
+          },
+        });
+
+        if (counts[0] && counts[1]) {
+          const count = counts[0].count - counts[1].count;
+          return {
+            success: true,
+            count: count,
+          };
+        }
+        return {
+          success: false,
+        };
+      } catch (error) {
+        return {
+          success: false,
+        };
+      }
+    }),
+
+  getCounter: publicProcedure.query(async () => {
+    try {
+      const counts = await prisma.counter.findMany({
         where: {
-          id: 'counter',
-        },
-        data: {
-          count: {
-            increment: input.increment ? 1 : -1,
+          id: {
+            in: ["enter", "exit"],
           },
         },
-      });
-
-      const count = await prisma.counter.findUnique({
-        where: {
-          id: 'counter',
+        orderBy: {
+          count: "desc",
         },
         select: {
           count: true,
         },
       });
 
-      return {
-        success: true,
-        count: count
-      };
-      } catch (error) {
-        return {
-          success: false,
-        }
-      }
-    }),
+      console.log(counts);
 
-    getCounter: publicProcedure
-    .query(async () => {
-      try {
-        const count = await prisma.counter.findUnique({
-          where: {
-            id: 'counter',
-          },
-          select: {
-            count: true,
-          },
-        });
-
+      if (counts[0] && counts[1]) {
+        const count = counts[0].count - counts[1].count;
         return {
           success: true,
-          count: count
+          count: count,
         };
-      } catch (error) {
-        return {
-          success: false,
-        }
       }
-    }),
+      return {
+        success: false,
+      };
+    } catch (error) {
+      return {
+        success: false,
+      };
+    }
+  }),
 });
