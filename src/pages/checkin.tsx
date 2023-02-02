@@ -1,48 +1,71 @@
-// This is the page that will be rendered when the user visits /checkin
-// variable declarations for sessionData and secretMessage
+import type { NextPage } from "next";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { api } from "@/utils/api";
 
-import { useState } from "react";
-import {api} from "@/utils/api";
-import { Navbar } from "@/components/navbar";
+type FormValues = {
+  name: string;
+  coat_check: string;
+};
 
-export default function Checkin() {
-  const [ticketNumber, setTicketNumber] = useState(-1);
+const Checkin: NextPage = () => {
+  const { register, handleSubmit } = useForm<FormValues>({ shouldUseNativeValidation: true });
 
-  
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    console.log("submitting ", ticketNumber);
-    console.log("calling api")
-    const result = api.ticket.checkTicket.useQuery({ number: ticketNumber});
+  const mutation = api.checkin.checkin.useMutation({
+    onSuccess: () => {
+      console.log("success");
+    },
+  });
 
-    console.log(`result: ${result.data ? result.data.name : "no data"}`)
-    e.preventDefault();
-  }
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const coat_check = data.coat_check === "yes" ? true : false;
 
+    const name = data.name;
+
+    mutation.mutate({ name, coat_check });
+  };
   return (
     <>
-    <Navbar />
-    <div className="flex h-screen w-screen flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl">checkin</p>
-
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises*/}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label htmlFor="name">Full Name</label>
         <input
-          id="ticketNumber"
-          type="number"
-          placeholder="Ticket Number"
-          required
-          min={0}
-          onChange={(e) => setTicketNumber(parseInt(e.target.value))}
-          className="block w-full appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2.5 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
+          id="name"
+          type="text"
+          autoComplete="off"
+          className="block appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2.5 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
+          {...register("name", { required: 'Please enter your full name' })}
         />
-        <button
-          type="submit"
-          className="btn"
-        >
-          Check In
-        </button>
+        <label>Do you want to check your coat?</label>
+
+        <label htmlFor="coat_check_yes">Yes</label>
+        <input
+          type="radio"
+          {...register("coat_check", { required: 'Select yes or no' })}
+          id="coat_check_yes"
+          value="yes"
+        />
+        <label htmlFor="coat_check_no">No</label>
+        <input
+          type="radio"
+          {...register("coat_check", { required: 'Select yes or no' })}
+          id="coat_check_no"
+          value="no"
+        />
+
+        <button type="submit">Submit</button>
       </form>
-    </div>
+
+      {mutation.isSuccess && !mutation.data.success && <p className="text-center text-2xl"> Name already exists, please try again</p>}
+
+      {mutation.isSuccess && mutation.data.success && (
+        <div>
+        <p className="text-center text-2xl">
+          {mutation.variables?.name} Checked In</p>
+          {mutation.data.number && <p className="text-center text-2xl">{`Coat check number: ${mutation.data.number}`}</p>}
+          </div>
+      )}
     </>
   );
+};
 
-}
+export default Checkin;

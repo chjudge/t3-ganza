@@ -49,12 +49,6 @@ export const Navbar = () => {
               Check In
             </Link>
             <Link
-              href="/ticket"
-              className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-red-900 hover:text-white lg:inline-flex lg:w-auto"
-            >
-              Ticket Sales
-            </Link>
-            <Link
               href="/coat"
               className="w-full items-center justify-center rounded px-3 py-2 font-bold text-white hover:bg-red-900 hover:text-white lg:inline-flex lg:w-auto"
             >

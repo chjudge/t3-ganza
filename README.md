@@ -13,6 +13,12 @@ no idea what scanner workflow would look like but numbers is something like:
 * use ticket to get coat back, but can use name lookup because we have the name from ticket distro
 * have fun
 
+Maybe increment ticket number at ticket distro page but also maybe too much work to manually
+keep track to ensure that we have the tickets in order
+Or maybe just have ticket guys write number on ticket and generate on the site
+
+poll for user interest in using id cards - might be too establishment/corpo
+
 ## TODO
 
 * coat check
@@ -20,6 +26,36 @@ no idea what scanner workflow would look like but numbers is something like:
     * fast pass
     * booth reservation
     * regular ticket
+
+## GOALS
+
+* checkin - used at checkin desk in TLC
+    * fast pass field
+    * field to enter name
+    * field to say whether they need a checked coat
+    * if coat_check then generate number
+* coat - used at coat check desk
+    * field to enter coatcheck number to indicate coat is checked
+    * field to enter coatcheck number to indicate coat is taken back
+    * field to enter name to search for coat check number
+* counter - used by traffic moniter goons and maybe in TLC to know when to send people over
+    * buttons to increment and decrement
+    * sync number of people
+    * display number of people checked in
+* admin - dashboard ish to display live data from the db
+
+## Next steps
+* Validate name DONE
+    * Validation messages DONE
+* Counter page DONE, make client side responsive ish
+* Coat check page
+    * Search by number
+    * checkout button
+* dashboard to view data
+* Auth
+    * every page requires you to be logged in
+* Fast pass page?
+* format
 
 ## Development
 
