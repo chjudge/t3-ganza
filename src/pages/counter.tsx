@@ -36,10 +36,11 @@ export default function Counter() {
   return (
     <>
       <Navbar />
-      <div>
+      <div className="flex pt-6 flex-col h-full items-center justify-center gap-4">
         {query.isSuccess && query.data.count && (
-          <p>{`Count: ${query.data.count}`}</p>
+          <p className="text-2xl"><b>Count:</b> {query.data.count}</p>
         )}
+        
         <button
           onClick={() => onSubmit(true)}
           className="rounded-full bg-white/10 px-10 py-3 font-semibold  no-underline transition hover:bg-white/20"

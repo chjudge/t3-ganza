@@ -76,8 +76,12 @@ export const checkinRouter = createTRPCRouter({
             coat_check_number: 0,
           },
         });
+
+        const win = Math.floor((Math.random() * 10) + 1);
         return {
           success: true,
+          win: win === 1,
+          name: person.name,
         };
       } catch (error) {
         console.log("wrong number");
@@ -167,4 +171,33 @@ export const checkinRouter = createTRPCRouter({
       };
     }
   }),
+
+  getPrize: publicProcedure.query(async () => {
+    try {
+      const result = await prisma.person.findMany({
+        where: {
+          prize: false
+        },
+        select: {
+          name: true,
+        },
+      });
+
+      const names = result.map((person) => person.name);
+
+      const name = names[Math.floor(Math.random() * names.length)];
+
+      console.log(name);
+
+      return {
+        success: true,
+        name: name,
+      };
+    } catch (error) {
+      return {
+        success: false,
+      };
+    }
+  }
+  ),
 });
