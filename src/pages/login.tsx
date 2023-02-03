@@ -1,63 +1,76 @@
-import { useSession, signIn } from "next-auth/react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { auth } from "@/utils/firebase";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
 type FormValues = {
-  username: string;
-  password: string;
+  loginEmail: string;
+  loginPassword: string;
 };
 
-const Login = () => {
-  const { data: session } = useSession();
+export default function LoginForm() {
+  const inputStyle =
+  "relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm";
 
-  const { register, handleSubmit } = useForm<FormValues>({
-    shouldUseNativeValidation: true,
-  });
+  const { register, handleSubmit } = useForm<FormValues>();
+
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
-    signIn("credentials", {
-      redirect: false,
-      username: data.username,
-      password: data.password,
-    })
-      .then((res) => {
-        console.log(res);
-        if (res) {
-          if (res.ok) {
-            console.log("success")
-          } else {
-            // Not signed in
-          }
+
+    signInWithEmailAndPassword(data.loginEmail, data.loginPassword)
+      .then((userCredential) => {
+        // Signed in
+        if (userCredential) {
+          const user = userCredential.user;
+          console.log(user);
         }
       })
-      .catch((err) => {
-        // Handle error
+      .catch((error) => {
+        console.log(error);
+        // ..
       });
   };
-
   return (
     <div>
-    {/* eslint-disable-next-line @typescript-eslint/no-misused-promises*/}
+      <p className="">Log in to your account</p>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="username">Username</label>
+        <label className="sr-only" htmlFor="loginEmail">
+          Email
+        </label>
         <input
-          id="username"
-          type="text"
-          autoComplete="off"
-          className="block appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2.5 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
-          {...register("username", { required: true })}
+          className={inputStyle + " rounded-t-md"}
+          id="loginEmail"
+          type="email"
+          autoComplete="email"
+          {...register("loginEmail", { required: true })}
+          placeholder="Email address"
         />
-        <label htmlFor="password">Password</label>
+
+        <label className="sr-only" htmlFor="loginPassword">
+          Password
+        </label>
         <input
+          className={inputStyle}
+          id="loginPassword"
           type="password"
-          id="password"
-          className="block appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2.5 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
-          {...register("password", { required: true })}
+          {...register("loginPassword", { required: true })}
+          placeholder="Password"
         />
-        <button type="submit">Login</button>
+
+        <button type="submit" className="">
+          Login
+        </button>
       </form>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error.message}</p>}
+      {user && (
+        <div>
+          <p>Signed In User: {user.user.email}</p>
+        </div>
+      )}
     </div>
   );
-};
-
-export default Login;
+}
