@@ -39,13 +39,16 @@ const Checkin: NextPage = () => {
 
   return (
     <>
-      <div className="flex h-screen w-screen flex-col items-center justify-center gap-4">
-        <div className=" ">
+      <div className="flex flex-col items-center gap-4">
+        
+        <h1 className="bg-red-900 w-screen text-center text-yellow-300 text-4xl py-6 px-20">Welcome to the Tri-Rho Extravaganza!</h1>
+        
+        <div className="">
           {!mutation.isSuccess && (
             /* eslint-disable-next-line @typescript-eslint/no-misused-promises*/
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="">
-                <div className="flex items-center justify-center">
+                <div className="flex items-center pt-6 justify-center">
                   <label htmlFor="name" className="text-center text-4xl mx-5">
                     Full Name:
                   </label>
@@ -59,10 +62,10 @@ const Checkin: NextPage = () => {
                     })}
                   />
                 </div>
-                <p  className="text-center text-4xl p-10">
+                <p  className="text-center text-2xl pt-6 pb-1">
                   Do you want to check your coat?
                 </p>
-                <div className="flex items-center justify-center">
+                <div className="flex items-center gap-3 justify-center">
                 <label className="text-2xl" htmlFor="coat_check_yes" >Yes</label>
                 <input
                   type="radio"
@@ -79,7 +82,7 @@ const Checkin: NextPage = () => {
                   value="no"
                   className="h-5 w-5"
                 /></div>
-                <div className="flex justify-center">
+                <div className="p-6 flex justify-center">
                 <button type="submit" className="btn">Submit</button></div>
               </div>
             </form>
@@ -100,7 +103,7 @@ const Checkin: NextPage = () => {
               {mutation.data.number && (
                 <p className="text-center text-2xl">{`Coat check number: ${mutation.data.number}`}</p>
               )}
-              <button type="reset" onClick={() => mutation.reset()}>
+              <button className="btn" type="reset" onClick={() => mutation.reset()}>
                 Next
               </button>
             </div>
