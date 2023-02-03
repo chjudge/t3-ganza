@@ -64,6 +64,29 @@ export const checkinRouter = createTRPCRouter({
       }
     }),
 
+  checkout: publicProcedure
+    .input(z.object({ number: z.number().int() }))
+    .mutation(async ({ input }) => {
+      try {
+        const person = await prisma.person.update({
+          where: {
+            coat_check_number: input.number,
+          },
+          data: {
+            coat_check_number: 0,
+          },
+        });
+        return {
+          success: true,
+        };
+      } catch (error) {
+        console.log("wrong number");
+        return {
+          success: false,
+        };
+      }
+    }),
+
   counter: publicProcedure
     .input(z.object({ increment: z.boolean() }))
     .mutation(async ({ input }) => {

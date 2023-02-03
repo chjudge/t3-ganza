@@ -47,9 +47,9 @@ Or maybe just have ticket guys write number on ticket and generate on the site
 * Validate name DONE
     * Validation messages DONE
 * Counter page DONE, make client side responsive ish
-* Coat check page
-    * Search by number
-    * checkout button
+* Coat check page DONE
+    * Search by number DONE
+    * checkout button DONE
 * dashboard to view data
 * Auth
     * every page requires you to be logged in

@@ -71,7 +71,7 @@ model Person {
     name            String  @unique
     coat_check      Boolean
     checked_coat    Boolean @default(false)
-    coat_check_number Int   @default(0)
+    coat_check_number Int   @unique @default(0)
 }
 
 model Counter {
