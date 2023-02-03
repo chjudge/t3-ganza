@@ -36,7 +36,7 @@ export default function Counter() {
   return (
     <>
       <Navbar />
-      <div>
+      <div className="flex h-full flex-col items-center justify-center gap-4">
         {query.isSuccess && query.data.count && (
           <p>{`Count: ${query.data.count}`}</p>
         )}
