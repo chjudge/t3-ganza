@@ -91,6 +91,39 @@ export const checkinRouter = createTRPCRouter({
       }
     }),
 
+  searchNames: publicProcedure
+    .input(z.object({ name: z.string() }))
+    .query(async ({ input }) => {
+      try {
+        const people = await prisma.person.findMany({
+          where: {
+            name: {
+              contains: input.name,
+              mode: "insensitive",
+            },
+            coat_check_number: {
+              gt: 0,
+            },
+          },
+          select: {
+            name: true,
+            coat_check_number: true,
+          },
+        });
+
+        return {
+          success: true,
+          people: people,
+        };
+      } catch (error) {
+        console.log(error);
+        return {
+          success: false,
+        };
+      }
+    }),
+
+
   counter: publicProcedure
     .input(z.object({ increment: z.boolean() }))
     .mutation(async ({ input }) => {

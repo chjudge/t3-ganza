@@ -2,6 +2,8 @@ import type { NextPage } from "next";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "@/utils/api";
 import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/utils/firebase";
 
 type FormValues = {
   name: string;
@@ -13,9 +15,11 @@ const Checkin: NextPage = () => {
     register,
     handleSubmit,
     reset,
-    formState,
     formState: { isSubmitSuccessful },
   } = useForm<FormValues>({ shouldUseNativeValidation: true });
+
+  
+  const [user] = useAuthState(auth);
 
   const mutation = api.checkin.checkin.useMutation({
     onSuccess: () => {
@@ -43,6 +47,7 @@ const Checkin: NextPage = () => {
         
         <h1 className="bg-red-900 w-screen text-center text-yellow-300 text-4xl py-6 px-20">Welcome to the Tri-Rho Extravaganza!</h1>
         
+        { user && (
         <div className="">
           {!mutation.isSuccess && (
             /* eslint-disable-next-line @typescript-eslint/no-misused-promises*/
@@ -109,6 +114,7 @@ const Checkin: NextPage = () => {
             </div>
           )}
         </div>
+          )}
       </div>
     </>
   );
