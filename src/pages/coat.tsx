@@ -59,6 +59,7 @@ const CoatCheck: NextPage = () => {
         {mutation.isSuccess && mutation.data.success && (
           <div>
             <p className="text-center text-2xl">Checked Out</p>
+            {mutation.data.win && mutation.data.name && <p>{`${mutation.data.name} won a prize!`}</p>}
           </div>
         )}
       </div>
