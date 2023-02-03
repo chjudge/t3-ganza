@@ -10,15 +10,15 @@ export default function Counter() {
   });
   const query = api.checkin.getCounter.useQuery();
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     query.refetch().catch((err) => {
-  //       console.log(err);
-  //     });
-  //   }, 2000);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      query.refetch().catch((err) => {
+        console.log(err);
+      });
+    }, 2000);
 
-  //   return () => clearInterval(timer);
-  // }, [query]);
+    return () => clearInterval(timer);
+  }, [query]);
 
   function onSubmit(increment: boolean) {
     mutation

@@ -48,9 +48,9 @@ poll for user interest in using id cards - might be too establishment/corpo
 * Validate name DONE
     * Validation messages DONE
 * Counter page DONE, make client side responsive ish
-* Coat check page
-    * Search by number
-    * checkout button
+* Coat check page DONE
+    * Search by number DONE
+    * checkout button DONE
 * dashboard to view data
 * Auth
     * every page requires you to be logged in

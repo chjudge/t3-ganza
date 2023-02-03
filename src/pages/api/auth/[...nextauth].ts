@@ -5,6 +5,9 @@ import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
   // Include user.id on session
   callbacks: {
     session({ session, user }) {
@@ -23,6 +26,10 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
+
+        console.log(credentials);
+
+
         if (credentials === undefined) {
           return null;
         }
