@@ -13,7 +13,6 @@ const Checkin: NextPage = () => {
     register,
     handleSubmit,
     reset,
-    formState,
     formState: { isSubmitSuccessful },
   } = useForm<FormValues>({ shouldUseNativeValidation: true });
 
