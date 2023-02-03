@@ -14,7 +14,7 @@ type FormValues = {
 const CoatCheck: NextPage = () => {
   const [name, setName] = useState("");
 
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   const {
     register,
@@ -50,56 +50,59 @@ const CoatCheck: NextPage = () => {
   return (
     <>
       <Navbar />
+      {user && (
+        
       <div className="py-15 flex h-full flex-col items-center justify-center gap-4">
-        <h1 className="pt-6 text-3xl">Coat Check</h1>
-        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises*/}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="text-center">
-            <label htmlFor="number">Coat Check Number</label>
-          </div>
+      <h1 className="pt-6 text-3xl">Coat Check</h1>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises*/}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="text-center">
+          <label htmlFor="number">Coat Check Number</label>
+        </div>
 
-          <div className="p-2">
-            <input
-              id="number"
-              type="number"
-              autoComplete="off"
-              className="block appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
-              {...register("number", { required: false })}
-            />
-          </div>
-          <div className="p-2">
-            <label htmlFor="name">Search Name</label>
-            <input
-              id="name"
-              type="text"
-              autoComplete="off"
-              className="block appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
-              {...register("name", { required: false })}
-            />
-          </div>
+        <div className="p-2">
+          <input
+            id="number"
+            type="number"
+            autoComplete="off"
+            className="block appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
+            {...register("number", { required: false })}
+          />
+        </div>
+        <div className="p-2">
+          <label htmlFor="name">Search Name</label>
+          <input
+            id="name"
+            type="text"
+            autoComplete="off"
+            className="block appearance-none rounded-lg border  border-gray-600 bg-gray-700 p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
+            {...register("name", { required: false })}
+          />
+        </div>
 
-          <div className="p-6">
-            <button type="submit" className="btn">
-              Submit
-            </button>
-          </div>
-        </form>
+        <div className="p-6">
+          <button type="submit" className="btn">
+            Submit
+          </button>
+        </div>
+      </form>
 
-        {mutation.isSuccess && !mutation.data.success && (
-          <p className="text-center text-2xl">Number not found</p>
+      {mutation.isSuccess && !mutation.data.success && (
+        <p className="text-center text-2xl">Number not found</p>
+      )}
+
+      {mutation.isSuccess && mutation.data.success && (
+        <div>
+          <p className="text-center text-2xl">{mutation.data.name && `${mutation.data.name} `}Checked Out</p>
+          {mutation.data.win && mutation.data.name && (
+            <p>{`${mutation.data.name} won a prize!`}</p>
+          )}
+        </div>
+      )}
+
+      {name && name !== "" && <Results name={name} />}
+    </div>
         )}
-
-        {mutation.isSuccess && mutation.data.success && (
-          <div>
-            <p className="text-center text-2xl">{mutation.data.name && `${mutation.data.name} `}Checked Out</p>
-            {mutation.data.win && mutation.data.name && (
-              <p>{`${mutation.data.name} won a prize!`}</p>
-            )}
-          </div>
-        )}
-
-        {name && name !== "" && <Results name={name} />}
-      </div>
     </>
   );
 };
