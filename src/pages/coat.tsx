@@ -3,6 +3,8 @@ import { type NextPage } from "next";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { api } from "@/utils/api";
 import { type FC, useState, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/utils/firebase";
 
 type FormValues = {
   number: string;
@@ -11,6 +13,8 @@ type FormValues = {
 
 const CoatCheck: NextPage = () => {
   const [name, setName] = useState("");
+
+  const [user, loading, error] = useAuthState(auth);
 
   const {
     register,
